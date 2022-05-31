@@ -15,14 +15,17 @@ RegisterNetEvent('qb-recycle:server:getItem', function()
 
   local chance = math.random(1, 100)
   if chance < 7 then
-    Player.Functions.AddItem(Config.ChanceItem, 1, false)
-    TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.ChanceItem], 'add')
+    Player.Functions.AddItem(Config.ChanceItem1, 1, false)
+    TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.ChanceItem1], 'add')
+  elseif chance > 96 then 
+    Player.Functions.AddItem(Config.ChanceItem2, 1, false)
+    TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.ChanceItem2], 'add')
   end
 
   local luck = math.random(1, 10)
   local odd = math.random(1, 10)
   if luck == odd then
-    local random = math.random(1, 3)
+    local random = math.random(1, 2)
     Player.Functions.AddItem(Config.LuckyItem, random)
     TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.LuckyItem], 'add')
   end

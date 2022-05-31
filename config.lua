@@ -16,8 +16,9 @@ Config = {
 	MaxItemsReceived 	= 5,
 	MinItemReceivedQty 	= 2,
 	MaxItemReceivedQty 	= 6,
-	ChanceItem 			= "cryptostick",
-	LuckyItem 			= "rubber",
+	ChanceItem1 		= "cryptostick",
+	ChanceItem2			= "usb_blue",
+	LuckyItem 			= "weapongrade_polymer",
 	
 	PickupLocations = {
 		[1] 	= vector4(1067.68, -3095.57, -39.9, 342.39),
@@ -62,5 +63,6 @@ Config = {
 		[5] = "aluminum",
 		[6] = "steel",
 		[7] = "glass",
+		[8] = "rubber"
 	}
 }

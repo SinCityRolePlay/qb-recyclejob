@@ -1,7 +1,9 @@
 local QBCore = exports['qb-core']:GetCoreObject()
+local PlayerData = QBCore.Functions.GetPlayerData()
 local carryPackage = nil
 local packageCoords = nil
 local onDuty = false
+local PlayerJob = {}
 
 -- zone check
 
@@ -58,6 +60,7 @@ local function RegisterEntranceTarget()
           type = 'client',
           event = 'qb-recyclejob:client:target:enterLocation',
           label = 'Enter Warehouse',
+          job = "recycle",
         },
       },
       distance = 1.0
@@ -72,10 +75,13 @@ local function RegisterEntranceTarget()
     })
 
     entranceZone:onPlayerInOut(function(isPointInside)
-      if isPointInside then
-        exports['qb-core']:DrawText('[E] Enter Warehouse', 'left')
-      else
-        exports['qb-core']:HideText()
+      print(json.encode(PlayerJob))
+      if PlayerJob.name == "recycle" then 
+        if isPointInside then
+          exports['qb-core']:DrawText('[E] Enter Warehouse', 'left')
+        else
+          exports['qb-core']:HideText()
+        end
       end
 
       isInsideEntranceZone = isPointInside
@@ -160,6 +166,7 @@ local function RegisterDutyTarget()
           type = 'client',
           event = 'qb-recyclejob:client:target:toggleDuty',
           label = GetDutyTargetText(),
+          job = "recycle",
         },
       },
       distance = 1.0
@@ -205,7 +212,6 @@ local function RefreshDutyTarget()
   RegisterDutyTarget()
 end
 
-
 local function RegisterDeliveyTarget()
   local coords = vector3(Config.DropLocation.x, Config.DropLocation.y, Config.DropLocation.z)
 
@@ -222,6 +228,7 @@ local function RegisterDeliveyTarget()
           type = 'client',
           event = 'qb-recyclejob:client:target:dropPackage',
           label = 'Hand In Package',
+          job = "recycle",
         },
       },
       distance = 1.0
@@ -403,6 +410,7 @@ function RegisterPickupTarget(coords)
           type = 'client',
           event = 'qb-recyclejob:client:target:pickupPackage',
           label = 'Get Package',
+          job = "recycle",
         },
       },
       distance = 1.0
@@ -437,6 +445,13 @@ local function DrawPackageLocationBlip()
 end
 
 -- Events
+RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
+  PlayerData.job = JobInfo
+end)
+
+RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
+  PlayerJob = JobInfo
+end)
 
 RegisterNetEvent('qb-recyclejob:client:target:enterLocation', function()
   EnterLocation()
